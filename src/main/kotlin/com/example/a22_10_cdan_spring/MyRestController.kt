@@ -1,11 +1,29 @@
 package com.example.a22_10_cdan_spring
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class MyRestController {
+
+    //http://localhost:8080/receiveStudent
+    @PostMapping("/receiveStudent")
+    fun receiveStudent(@RequestBody studentBean: StudentBean) {
+        println("/receiveStudent : $studentBean")
+    }
+
+    //http://localhost:8080/increment
+    @PostMapping("/increment")
+    fun increment(@RequestBody studentBean: StudentBean): StudentBean {
+        println("/increment : $studentBean")
+
+         studentBean.note++
+        return studentBean
+    }
+
 
     //http://localhost:8080/max?p1=0&p2=3
     @GetMapping("/max")
