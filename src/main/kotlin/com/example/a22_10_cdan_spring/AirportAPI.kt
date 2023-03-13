@@ -8,12 +8,20 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/airport")
 class AirportAPI {
 
-    var tab = Array<PlaneBean?>(5) { null}
+    var tab = Array<PlaneBean?>(5) { null }
 
     //Méthode qui permet de réinitialiser les données entre 2 tests
     //http://localhost:8080/airport/reset
     @GetMapping("/reset")
-    fun reset(){
-        tab = Array(5) { null}
+    fun reset() {
+        tab = Array(5) { null }
+    }
+
+    //http://localhost:8080/airport/nextplace
+    @GetMapping("/nextplace")
+    fun nextplace(): Int {
+        println("/nextplace")
+
+        return tab.indexOf(null)
     }
 }
