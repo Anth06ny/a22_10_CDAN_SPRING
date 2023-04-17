@@ -6,7 +6,7 @@
     <link href="/css/main.css" rel="stylesheet"/>
 </head>
 <body>
-<h1 th:text="${texte} + ' ' + ${studentBean.name}"></h1>
+<h1 th:text="${texte} + ' ' + ${studentBean?.name ?: ''}"></h1>
 
 <ul>
     <li th:each="student : ${studentList}" th:text="${student.name} + ':' + ${student.note}"> </li>

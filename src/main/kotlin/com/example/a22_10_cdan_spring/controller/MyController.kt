@@ -1,6 +1,7 @@
 package com.example.a22_10_cdan_spring.controller
 
 import com.example.a22_10_cdan_spring.StudentBean
+import com.example.a22_10_cdan_spring.model.StudentRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -10,7 +11,7 @@ class MyController {
 
     //http://localhost:8080/hello
     @GetMapping("/hello")
-    fun testHello(model: Model): String {
+    fun hello(model: Model): String {
         println("/hello")
 
         //Donnée brut
@@ -25,6 +26,46 @@ class MyController {
             StudentBean("Tobby", 15),
             StudentBean("Gustave", 12),
             )
+        model.addAttribute("studentList", list)
+
+        //Nom du fichier HTML que l'on souhaite afficher
+        return "welcome"
+    }
+
+    //http://localhost:8080/add?name=bobby&note=14
+    @GetMapping("/add")
+    fun add (name:String, note: Int, model: Model): String {
+        println("/add name=$name note=$note")
+
+        val student = StudentBean(name, note)
+        StudentRepository.save(student)
+
+        //Donnée brut
+        model.addAttribute("texte", "Ajout de")
+        //1 objet
+        model.addAttribute("studentBean", student)
+
+        //List
+        model.addAttribute("studentList", StudentRepository.load())
+
+        //Nom du fichier HTML que l'on souhaite afficher
+        return "welcome"
+    }
+
+    //http://localhost:8080/filter?name=toto
+    @GetMapping("/filter")
+    fun filter (name:String?, note: Int?, model: Model): String {
+        println("/filter name=$name note=$note")
+
+        val list = StudentRepository.load().filter {
+            (name == null ||  it.name == name )
+                    &&    (note == null ||  it.note == note )
+        }
+
+        //Donnée brut
+        model.addAttribute("texte", "Recherche : name=$name note=$note")
+
+        //List
         model.addAttribute("studentList", list)
 
         //Nom du fichier HTML que l'on souhaite afficher
