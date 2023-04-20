@@ -5,9 +5,40 @@ import com.example.a22_10_cdan_spring.model.StudentRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 
 @Controller
 class MyController {
+
+
+    /* -------------------------------- */
+    // TP Formulaire
+    /* -------------------------------- */
+    //http://localhost:8080/form
+    @GetMapping("/form")
+    fun showForm(studentBean: StudentBean): String {
+
+        studentBean.name = "toto"
+        studentBean.note = 5
+
+        //Lance studentForm.html
+        return "studentForm";
+    }
+
+    //Méthode de récéption du formulaire
+    @PostMapping("/formSubmit")
+    fun formResponse(studentBean: StudentBean): String {
+        println("L'élève créé : " + studentBean.name + " " + studentBean.note)
+
+        //Lance studentFormResult.html
+        return "studentFormResult";
+    }
+
+
+    /* -------------------------------- */
+    // 1ere Partie
+    /* -------------------------------- */
+
 
     //http://localhost:8080/hello
     @GetMapping("/hello")
@@ -25,7 +56,7 @@ class MyController {
             StudentBean("Bobby", 5),
             StudentBean("Tobby", 15),
             StudentBean("Gustave", 12),
-            )
+        )
         model.addAttribute("studentList", list)
 
         //Nom du fichier HTML que l'on souhaite afficher
@@ -34,7 +65,7 @@ class MyController {
 
     //http://localhost:8080/add?name=bobby&note=14
     @GetMapping("/add")
-    fun add (name:String, note: Int, model: Model): String {
+    fun add(name: String, note: Int, model: Model): String {
         println("/add name=$name note=$note")
 
         val student = StudentBean(name, note)
@@ -54,12 +85,12 @@ class MyController {
 
     //http://localhost:8080/filter?name=toto
     @GetMapping("/filter")
-    fun filter (name:String?, note: Int?, model: Model): String {
+    fun filter(name: String?, note: Int?, model: Model): String {
         println("/filter name=$name note=$note")
 
         val list = StudentRepository.load().filter {
-            (name == null ||  it.name == name )
-                    &&    (note == null ||  it.note == note )
+            (name == null || it.name == name)
+                    && (note == null || it.note == note)
         }
 
         //Donnée brut

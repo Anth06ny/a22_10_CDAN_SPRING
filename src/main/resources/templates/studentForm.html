@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- th:action="'/formSubmit'" ou action="/formSubmit" -->
+<form method="post" action="/formSubmit" th:object="${studentBean}">
+
+  <p>Name: <input th:field="*{name}"  type="text"/></p>
+  <p>Age: <input th:field="*{note}" type="number"/></p>
+
+  <p><input type="submit" value="Submit"/></p>
+</form>
+
+</body>
+</html>

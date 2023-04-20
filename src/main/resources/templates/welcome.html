@@ -9,7 +9,7 @@
 <h1 th:text="${texte} + ' ' + ${studentBean?.name ?: ''}"></h1>
 
 <ul>
-    <li th:each="student : ${studentList}" th:text="${student.name} + ':' + ${student.note}"> </li>
+    <li th:each="student : ${studentList}" th:text="${student.name} + ':' + ${student.note}"></li>
 </ul>
 
 </body>
