@@ -2,6 +2,7 @@ package com.example.a22_10_cdan_spring.controller
 
 import com.example.a22_10_cdan_spring.StudentBean
 import com.example.a22_10_cdan_spring.model.StudentRepository
+import jakarta.servlet.http.HttpSession
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -42,8 +43,8 @@ class MyController {
 
     //http://localhost:8080/hello
     @GetMapping("/hello")
-    fun hello(model: Model): String {
-        println("/hello")
+    fun hello(model: Model, session: HttpSession): String {
+        println("/hello sessionId = ${session.id}")
 
         //Donnée brut
         model.addAttribute("texte", "Bonjour")
