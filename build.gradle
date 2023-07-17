@@ -26,10 +26,10 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //developmentOnly 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.+'
+    developmentOnly 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.+'
 
     //Permet à JAVA de se connecter à une base SQL
-    //runtimeOnly 'mysql:mysql-connector-j'
+    //runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
 //JPA Framework Java qui génère du SQL
