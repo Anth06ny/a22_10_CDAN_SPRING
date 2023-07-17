@@ -1,6 +1,6 @@
 package com.example.a22_10_cdan_spring.controller
 
-import com.example.a22_10_cdan_spring.UserBean
+import com.example.a22_10_cdan_spring.model.UserBean
 import com.example.a22_10_cdan_spring.model.UserService
 import jakarta.servlet.http.HttpSession
 import org.springframework.stereotype.Controller
@@ -12,22 +12,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/user")
-class LoginController {
+class LoginController(val userService: UserService) {
 
+
+    //point d'entrée
     //http://localhost:8080/user/login
     @GetMapping("/login")
     fun login(userBean: UserBean, session: HttpSession, model : Model): String {
 
         try {
-            val userBdd = UserService.findBySessionId(session.id)
+            //cas qui marche
+            //je cherche en abse par session id
+            val userBdd = userService.findBySessionId(session.id)
             if (userBdd != null) {
                 //redirection il est déjà logué
                 return "redirect:/user/userregister";
             }
-
-            userBean.login = "toto@toto.fr"
         }
         catch(e:java.lang.Exception) {
+            //cas qui ne marche pas
             e.printStackTrace()
             model.addAttribute("errorMessage", e.message)
         }
@@ -44,11 +47,11 @@ class LoginController {
 
         try {
             //Controle
-            if (userBean.login.isBlank()) {
+            if (userBean.login.isNullOrBlank()) {
                 throw Exception("Le login est manquant")
             }
 
-            val userBDD = UserService.findByLogin(userBean.login)
+            val userBDD = userService.findByLogin(userBean.login)
             //Existe déjà
             if (userBDD != null) {
                 if (userBDD.password != userBean.password) {
@@ -56,12 +59,12 @@ class LoginController {
                 }
                 //si ca marche on sauvegarde la session
                 userBDD.sessionId = session.id
-                UserService.save(userBDD)
+                userService.save(userBDD)
             }
             else {
                 //S'il n'existe pas je le crée
                 userBean.sessionId = session.id
-                UserService.save(userBean)
+                userService.save(userBean)
             }
 
             //redirige sur une url
@@ -87,7 +90,7 @@ class LoginController {
 
         try {
             //Je regarde si j'ai un utilisateur en abse avec cette session
-            val user = UserService.findBySessionId(session.id)
+            val user = userService.findBySessionId(session.id)
 
             if (user == null) {
                 //L'utilisateur de cette session n'est pas en base
@@ -96,7 +99,7 @@ class LoginController {
             }
             else {
                 //Liste des utilisateurs de la base
-                model.addAttribute("userList", UserService.load())
+                model.addAttribute("userList", userService.load())
                 model.addAttribute("userConnected", user)
                 return "login/userregister"
             }
